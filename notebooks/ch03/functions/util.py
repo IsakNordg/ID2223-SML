@@ -283,7 +283,12 @@ def purge_project(proj):
 
 def secrets_api(proj):
     host = "c.app.hopsworks.ai"
-    api_key = os.environ.get('HOPSWORKS_API_KEY')
+    try:
+        api_key = os.environ.get('HOPSWORKS_API_KEY')
+    except: # edited
+        from dotenv import load_dotenv
+        load_dotenv()
+        api_key = os.environ.get('HOPSWORKS_API_KEY')
     conn = hopsworks.connection(host=host, project=proj, api_key_value=api_key)
     return conn.get_secrets_api()
 
